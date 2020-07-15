@@ -6,14 +6,9 @@ This script will download VODs from Facebook.
 
 
 ```python
-import os
-import sys
-import time
-import urllib
-import urllib.request
-from contextlib import closing
-from os import system
-from urllib.request import urlopen
+requests==2.22.0
+beautifulsoup4==4.9.1
+ffmpeg
 ```
 
 ## Usage
