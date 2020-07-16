@@ -1,4 +1,6 @@
 import os
+import re
+import shutil
 import sys
 import time
 import urllib
@@ -35,8 +37,8 @@ def reporthook(count, block_size, total_size):
 def save(url, filename):
     urllib.request.urlretrieve(url, filename, reporthook)
 
-audio_dest = "audio"
-video_dest = "video"
+audio_dest = "tmp/audio"
+video_dest = "tmp/video"
 
 if not os.path.exists(audio_dest):
     os.makedirs(audio_dest)
@@ -54,18 +56,17 @@ print(splash)
 
 print('-------------------------\n')
 
-date = input('Name your file (no spaces or special characters): ')
-system("title Scraping: "+date)
+file_name = input('Name your file (no spaces or special characters): ')
+file_name = re.sub(r'[\\/*?:"<>|]',"", file_name).replace(" ", "")
+system("title Scraping: "+file_name)
 
 url_to_scrape = input('Facebook VOD URL: ')
 
 print('\n-------------------------')
-
 print('\nFinding download links...')
 
 page = requests.get(f'https://distillvideo.com/?url={url_to_scrape}')
 soup = BeautifulSoup(page.text, 'html.parser')
-
 links = []
 
 for table in soup.findAll('tbody'):
@@ -78,10 +79,10 @@ for table in soup.findAll('tbody'):
                     size = response.headers['Content-Length']
                     url = link
 
-                    if not os.path.exists(date):
-                        os.makedirs(date)
+                    if not os.path.exists(os.path.join("tmp/", file_name)):
+                        os.makedirs(os.path.join("tmp/", file_name))
 
-                    with open(os.path.join(date, size), 'w') as out:
+                    with open(os.path.join("tmp/", file_name, size), 'w') as out:
                         out.write(url)
 
                         print('Link found!')
@@ -89,7 +90,7 @@ for table in soup.findAll('tbody'):
 time.sleep(1)
 print('\nFinding highest quality files to download...')
 
-for root, dirs, files in os.walk(date):
+for root, dirs, files in os.walk(os.path.join("tmp/", file_name)):
     list_of_files = []
     for name in files:
         list_of_files.append(int(name))
@@ -109,20 +110,37 @@ for root, dirs, files in os.walk(date):
     video = str(video)
     audio = str(audio)
 
-    with open(os.path.join(date, video), 'r') as video_url_path:
+    with open(os.path.join("tmp/", file_name, video), 'r') as video_url_path:
         video_url = video_url_path.read()
 
-    with open(os.path.join(date, audio), 'r') as audio_url_path:
+    with open(os.path.join("tmp/", file_name, audio), 'r') as audio_url_path:
         audio_url = audio_url_path.read()
 
+    if os.path.exists(os.path.join("tmp/", file_name)):
+        shutil.rmtree(os.path.join("tmp/", file_name))
+
+    system("title Downloading audio: "+file_name)
     print('\nDownloading audio: ')
-    save(audio_url, os.path.join(audio_dest, date + ".mp4"))
+    save(audio_url, os.path.join(audio_dest, file_name + ".mp4"))
 
+    system("title Converting audio: "+file_name)
+    os.system(f'ffmpeg -i {os.path.join(audio_dest, file_name + ".mp4")} -vn -acodec copy {os.path.join(audio_dest, file_name + ".aac >nul 2>&1")}')
+
+    system("title Downloading video: "+file_name)
     print('\nDownloading video: ')
-    save(video_url, os.path.join(video_dest, date + ".mp4"))
-
-    print('\n\nDownload complete!')
-    print('\nUse the included merge.bat file to merge the audio and video streams.')
-    print('\n')
+    save(video_url, os.path.join(video_dest, file_name + ".mp4"))
     
-    system("title Scraping: Done!")
+    system("title Merging audio and video streams: "+file_name)
+    print('\nMerging audio and video streams...')
+
+    if not os.path.exists('complete/'):
+        os.makedirs('complete/')
+
+    os.system(f'ffmpeg -i {os.path.join(audio_dest, file_name + ".aac")} -i {os.path.join(video_dest, file_name + ".mp4")} -c:v copy -vcodec copy complete/{file_name}.mp4')
+
+    if os.path.exists('tmp/'):
+        shutil.rmtree('tmp/')
+
+    system(f"title Scraping for {file_name}: Done!")
+    print('\n\nComplete!')
+    print('\n')
