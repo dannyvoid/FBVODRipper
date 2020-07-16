@@ -10,15 +10,11 @@ requests==2.22.0
 beautifulsoup4==4.9.1
 ```
 
-ffmpeg
-
-python 3.*
+python 3.8.1, ffmpeg
 
 ## Usage
 
 Just run start.bat and go from there.
-
-start.bat requires python 3 at least, I made this using 3.8.1
 
 
 
