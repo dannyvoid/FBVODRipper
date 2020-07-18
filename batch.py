@@ -9,4 +9,4 @@ with open(list) as links:
 
         command = f"python app.py {line}"
         os.system(command)
-        os.system(cls)
+        os.system('cls')
