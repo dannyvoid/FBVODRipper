@@ -9,7 +9,7 @@ if not os.path.exists(temp_dir):
 if len(sys.argv) > 1:
     url = sys.argv[1]
 else:
-    url = input('Facebook VOD URL: ')
+    url = input("Facebook VOD URL: ")
 
 filename = url.split("/")[-2]
 os.system("title Scraping: "+filename)
