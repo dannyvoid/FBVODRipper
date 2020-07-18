@@ -2,31 +2,24 @@
 
 This script will download VODs (up to 1080p) from Facebook.
 
+This is JUST a wrapper for Youtube-DL, use that if you're comfortable with that.
+
+The flag to obtain highest quality on facebook is bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio
+
 ## Dependencies
 
 
 ```python
-requests==2.22.0
-beautifulsoup4==4.9.1
+python
+youtube-dl
 ```
-
-python 3.8.1, ffmpeg
 
 ## Usage
 
-Just run start.bat and go from there.
+Fill list.txt with links to Facebook VODs and then run "batch-videos.bat" to batch rip
 
+Just run "single-video.bat" if you'd like to rip a single video.
 
+It will download in the highest quality (1080p if the broadcaster streamed in that quality!)
 
-## Current state of this
-This was all poorly made in about 5-10 minutes.
-
-There's no validation for anything, we have useless temp files to determine the biggest file to get the highest quality video file, and we don't even handle incomplete downloads!
-
-We even rely on a 3rd party to parse Facebook for the links to download. 
-
-(since it was the quickest way to go about it, I made this for someone who needed it quickly and said all other CLI methods didn't save HQ)
-
-Feel free to submit a pull request if you'd like to clean this up and maybe help take away the 3rd party reliance.
-
-I have no further plans to do any more for this other then accepting pull requests.
+I was told Youtube-DL didn't support this, but I spent 2 seconds finding the flags to grab the highest quality.
