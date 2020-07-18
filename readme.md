@@ -1,4 +1,4 @@
-# FB VOD Ripper
+# FBVODRipper
 
 This script will download VODs (up to 1080p) from Facebook.
 
