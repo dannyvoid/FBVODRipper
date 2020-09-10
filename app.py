@@ -14,7 +14,7 @@ else:
 filename = url.split("/")[-2]
 os.system("title Scraping: "+filename)
 
-command = f"youtube-dl -f bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio --merge-output-format mp4 {url} -o {temp_dir}/{filename}.mp4"
+command = f"youtube-dl -f bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio --merge-output-format mp4 {url} -o {temp_dir}/{filename}.mp4 --cookies cookies.txt"
 os.system(command)
 
 if not os.path.exists(complete_dir):
