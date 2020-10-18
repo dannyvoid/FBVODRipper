@@ -13,13 +13,11 @@ This is JUST a wrapper for Youtube-DL, use that if you're comfortable with it.
 ```python
 python 3.8.*
 youtube-dl
-facebook cookie
 ```
 
 ## Usage
 
-**You will need to generate a cookies.txt file for Facebook and place it in this same directory.
-You can use either of these plugins depending on if you're using [chrome](https://chrome.google.com/webstore/detail/cookiestxt/njabckikapfpffapmjgojcnbfjonfjfg?hl=en) or [firefox](https://addons.mozilla.org/en-US/firefox/addon/cookies-txt/).**
+***a lot of redundant loops, but can't be bothered to clean. someone needed a quick fix.***
 
 Fill "list.txt" with links to Facebook VODs and then run "batch-videos.bat" to batch rip.
 
