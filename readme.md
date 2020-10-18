@@ -12,12 +12,10 @@ This is JUST a wrapper for Youtube-DL, use that if you're comfortable with it.
 
 ```python
 python 3.8.*
-youtube-dl via pip
+youtube-dl
 ```
 
 ## Usage
-
-***a lot of redundant loops/checks since i discovered facebook is unreliable at giving upload_date and timestamp, but can't be bothered to clean. someone needed a quick fix. feel free to clean and submit a pr***
 
 Fill "list.txt" with links to Facebook VODs and then run "batch-videos.bat" to batch rip.
 
